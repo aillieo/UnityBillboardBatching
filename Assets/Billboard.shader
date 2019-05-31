@@ -11,8 +11,11 @@
 		SubShader{
 			Tags 
 			{
-				"Queue" = "Transparent"
-				"RenderType" = "Transparent"
+				// "Queue" = "Transparent"
+				// "RenderType" = "Transparent"
+                
+                "Queue" = "Geometry"
+                "RenderType" = "Opaque"
 		
 				// "DisableBatching" = "True"
 		
@@ -20,8 +23,12 @@
 
 			Pass {
 
-				ZWrite Off
-				Blend SrcAlpha OneMinusSrcAlpha
+				// ZWrite Off
+                
+                ZWrite On
+
+                
+				// Blend SrcAlpha OneMinusSrcAlpha
 				Cull Off
 
 				CGPROGRAM
@@ -100,6 +107,12 @@
 				fixed4 frag(v2f i) : SV_Target {
 					fixed4 c = tex2D(_MainTex, i.uv);
 					c.rgb *= _Color.rgb;
+                    
+                    
+                    // alpha test
+                    clip (c.a - 0.5);
+
+                    
 					return c;
 				}
 
